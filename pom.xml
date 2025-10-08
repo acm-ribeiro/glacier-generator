@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
-    <artifactId>magmact-gen</artifactId>
+    <artifactId>glacier-gen</artifactId>
     <version>1.0</version>
 
     <build>
@@ -20,7 +20,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>magmact-gen</finalName> <!-- generated jar file name -->
+                    <finalName>glacier-gen</finalName> <!-- generated jar file name -->
                     <appendAssemblyId>false</appendAssemblyId> <!-- Removes the jar-with-dependencies suffix -->
                 </configuration>
             </plugin>
@@ -80,8 +80,8 @@
         <!-- contract parser -->
         <dependency>
             <groupId>com.github.acm-ribeiro</groupId>
-            <artifactId>magmact-parser</artifactId>
-            <version>d42762503d</version>
+            <artifactId>glacier-parser</artifactId>
+            <version>6417a101a3</version>
         </dependency>
 
         <!-- Evo Inflector: pluralizes english words -->
