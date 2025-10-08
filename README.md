@@ -1,16 +1,16 @@
-# MagmaCt-Gen #
+# Glacier Generator #
 
-MagmaCt-Gen automatically generates MagmaCt contracts based on an existing OpenAPI Specification (OAS) document.
+The Glacier generator automatically generates Glacier contracts based on an existing OpenAPI Specification (OAS) document.
 The generated file is an extension of the original OAS JSON file. 
 
-Currently, MagmaCt-Gen is not able to generate invariants. As such, we provide a catalogue with the most common templates for 
+Currently, Glacier generator is not able to generate invariants. As such, we provide a catalogue with the most common templates for 
 the user to complement the generated contracts. 
 
-The generated JSON file can then be used by Magma - a tool to automate the microservice testing process. 
+The generated JSON file can then be used by IcePick - a tool to automate the microservice testing process. 
 
-1. [MagmaCt](#magma-ct)
+1. [Glacier](#glacier-gen)
 2. [Running Example: Tournaments Management Application](#example)
-   1. [catalogue](#catalogue)
+   1. [Catalogue](#catalogue)
       1. [Automatically generated properties](#auto-generated)
          - [POST](#post)
          - [GET](#get)
@@ -27,18 +27,18 @@ The generated JSON file can then be used by Magma - a tool to automate the micro
 5. [Usage](#usage)
 6. [Support](#support)
 
-# MagmaCt <a name="magma-ct"></a>
-MagmaCt is a specification language to complement APIs' specifications based on first-order logic. Its purpose is to 
+# Glacier <a name="glacier-gen"></a>
+Glacier is a specification language to complement APIs' specifications based on first-order logic. Its purpose is to 
 extend the OAS with practical properties for test generation, transforming these documents 
-into valuable testing artefacts. Besides providing information for microservice testing, MagmaCt also provides 
+into valuable testing artefacts. Besides providing information for microservice testing, Glacier also provides 
 an API with semantic.
 
-With MagmaCt's you can build logical predicates based on pure - i.e. without side-effects (GETs) - API 
-operations. These predicates are used to write operation contracts. In the same way, MagmaCt is also used to write API 
-invariants. Although initially designed to extend OAS, MagmaCt can also be used with any API specification 
+With Glacier you can build logical predicates based on pure - i.e. without side-effects (GETs) - API 
+operations. These predicates are used to write operation contracts. In the same way, Glacier is also used to write API 
+invariants. Although initially designed to extend OAS, Glacier can also be used with any API specification 
 language that can be extended.
 
-The grammar file can be consulted in the `src/main/magmact-grammar` directory. 
+The grammar file can be consulted in the `src/main/glacier-grammar` directory. 
 
 # Running Example: Tournaments Management Application <a name="example"></a>
 We'll use this example to illustrate the catalogue's properties. 
@@ -91,13 +91,15 @@ are the following:
 
 ## Catalogue <a name="catalogue"></a>
 
-This catalogue is meant to be used as a tool to enrich the automatically generated MagmaCt contracts. We first 
-introduce what will be automatically generated. Then, we show how to write a set of predicates, or invariants, that can be adapted to the users' needs. The predicates will be illustrated with the help of the previously presented running example. 
+This catalogue is meant to be used as a tool to enrich the automatically generated Glacier contracts. We first 
+introduce what will be automatically generated. Then, we show how to write a set of predicates, or invariants, 
+that can be adapted to the users' needs. The predicates will be illustrated with the help of the previously presented running example. 
 
 
 ### Automatically Generated Properties <a name="auto-generated"></a>
-Our generator will produce a set of contracts (pre- and postconditions) for each API operation. However, in some cases, the predicates may not exactly express the intended 
-operation behaviour. Therefore, the user should **always check the produced results** and adapt them according to their needs. 
+Our generator will produce a set of contracts (pre- and postconditions) for each API operation. However, in some cases, 
+the predicates may not exactly express the intended operation behaviour. Therefore, the user should 
+**always check the produced results** and adapt them according to their needs. 
 
 
 #### POST <a name="post"></a>
@@ -114,7 +116,7 @@ insertion, the resource exists, and what was inserted is precisely what we inten
 ```
 
 #### GET <a name="get"></a>
-To use them in MagmaCt contracts, we assume GET operations are pure, meaning the system state remains 
+To use them in Glacier contracts, we assume GET operations are pure, meaning the system state remains 
 unaltered. As such, their contract is as permissible as possible. 
 
 ```
@@ -159,7 +161,7 @@ unless mentioned otherwise.
 #### Domain Constraints <a name="oas_custom_parser.domain"></a>
 🔷 Can be defined as a valid set of values for an attribute (e.g. integer attributes cannot have string values)
 
-These constraints are already enforced by the specification without the need for MagmaCt. For instance, when we’re trying
+These constraints are already enforced by the specification without the need for Glacier. For instance, when we’re trying
 to define an integer value, OAS gives us the option to specify an integer format - for instance `int64`, `int32` -, 
 `minimum` and `maximum` values, etc.
 
@@ -167,7 +169,7 @@ to define an integer value, OAS gives us the option to specify an integer format
 🔷 States that the primary key value cannot be null. We can use this for the ID’s.
 
 OpenAPI 3.0 does not have an explicit `null` type. But we can use `nullable: true` to specify that the value may be 
-`null`.  But it is often common we want to assert that an attribute value must not be `null`. In MagmaCt, it is done as 
+`null`.  But it is often common we want to assert that an attribute value must not be `null`. In Glacier, it is done as 
 follows:
 
 `for p in response_body(GET /players) :-  p.playerID != null`
@@ -179,7 +181,7 @@ reference from a row in one table to another table must be valid.
 
 As of now, OAS has no means of enforcing referential integrity between two records — as it should. This is often the 
 DBMS’ job: to enforce these constraints. However, if we’re accessing a DB developed by a third party, and we want to make 
-sure this is enforced, we might want to define a MagmaCt predicate. As such, let's assume that each player has a `score`.
+sure this is enforced, we might want to define a Glacier predicate. As such, let's assume that each player has a `score`.
 This `score` is stored in a different table for efficiency purposes. A referential integrity constraint might be that
 every table entry must belong to an existing player:
 
@@ -210,10 +212,10 @@ capacity.
 
 
 ## Generated File Structure <a name="file-structure"></a>
-The generated file will be a standard `.json` file. You can find a full example of a MagmaCt-Gen output in the 
-`src/main/examples` directory. The file `magmact_spec.json` is the output of executing MagmaCt-Gen with the 
+The generated file will be a standard `.json` file. You can find a full example of a Glacier generator output in the 
+`src/main/examples` directory. The file `glacier_spec.json` is the output of executing Glacier generator with the 
 `tournaments.json` specification. This file is a standard OAS. The file `tournaments_extended.json` 
-is a complete specification for the tournament's application, extended with valid and complete MagmaCt contracts. 
+is a complete specification for the tournament's application, extended with valid and complete Glacier contracts. 
 
 ```json
 {
@@ -242,17 +244,17 @@ is a complete specification for the tournament's application, extended with vali
 ```
 
 ## Installation <a name="installation"></a>
-MagmaCt-Gen implementation is within a `.jar` file.
+Glacier generator implementation is within a `.jar` file.
 Requires Java 16 or higher. 
 
 
 ## Usage  <a name="usage"></a>
-To execute the MagmaCt-Gen `.jar` file, you can do the following: 
+To execute the Glacier generator `.jar` file, you can do the following: 
 
-``java -jar magmact-gen.jar <path_to_oas_json>``
+``java -jar Glacier generator.jar <path_to_oas_json>``
 
-The generated JSON specification will be under the `magmact-contracts` directory. 
+The generated JSON specification will be under the `glacier-contracts` directory. 
 
 ---
 ### Support <a name="support"></a>
-For any questions related to the Magma framework please contact Ana Ribeiro ([acm.ribeiro@campus.fct.unl.pt](mailto:acm.ribeiro@campus.fct.unl.pt))
+For any questions related to the IcePick framework please contact Ana Ribeiro ([acm.ribeiro@campus.fct.unl.pt](mailto:acm.ribeiro@campus.fct.unl.pt))
