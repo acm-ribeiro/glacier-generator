@@ -3,7 +3,7 @@ package run;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import magmact_gen.MagmaCtGen;
+import glacier_gen.GlacierGen;
 import oas_custom_parser.OASCustomParser;
 
 import org.openapi4j.core.exception.EncodeException;
@@ -42,14 +42,14 @@ public class Main {
             Specification spec = OASCustomParser.parse(specFile);
 
             // Generating MAGMACt contracts
-            MagmaCtGen.generate(spec);
+            GlacierGen.generate(spec);
 
             // Serialization - required is wrong here
             SpecificationWrapper specWrapper = new SpecificationWrapper(spec);
             serialize(specWrapper, createJsonFile(specFile.getName()));
 
             // Print contracts
-            MagmaCtGen.print_contracts(spec);
+            GlacierGen.print_contracts(spec);
 
         } catch(ValidationException e) {
             e.printStackTrace();

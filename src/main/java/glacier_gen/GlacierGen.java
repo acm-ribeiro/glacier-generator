@@ -1,4 +1,4 @@
-package magmact_gen;
+package glacier_gen;
 
 import magmact_domain.*;
 import magmact_parser.VisitorOrientedParser;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class MagmaCtGen {
+public class GlacierGen {
 
     public static final String POST = "POST";
     public static final String PUT = "PUT";
