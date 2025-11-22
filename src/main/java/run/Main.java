@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static final String DIRECTORY = "magmact-contracts";
+    public static final String DIRECTORY = "glacier-contracts";
 
 
     public static void main(String[] args) throws EncodeException, IOException {

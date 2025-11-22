@@ -1,7 +1,7 @@
 package glacier_gen;
 
-import magmact_domain.*;
-import magmact_parser.VisitorOrientedParser;
+import domain.*;
+import parser.VisitorOrientedParser;
 import oas_custom_parser.domain.*;
 import utils.Lemmatizer;
 

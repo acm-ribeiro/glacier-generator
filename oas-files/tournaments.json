@@ -25,6 +25,89 @@
     }
   ],
   "paths": {
+    "/tournaments": {
+      "get": {
+        "tags": [
+          "tournaments"
+        ],
+        "summary": "Get a list with all tournaments.",
+        "operationId": "getTournaments",
+        "responses": {
+          "200": {
+            "description": "Successfully returns a JSON array of all tournaments.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tournament"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tournaments"
+        ],
+        "summary": "Add a new tournament.",
+        "operationId": "postTournament",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tournament"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created the tournament.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tournament"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid capacity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Tournament exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/tournaments/{tid}": {
       "get": {
         "tags": [
@@ -176,6 +259,248 @@
           },
           "404": {
             "description": "The specified resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tournaments/{tid}/capacity": {
+      "get": {
+        "tags": [
+          "tournaments"
+        ],
+        "summary": "Get a tournament's capacity.",
+        "operationId": "getTournamentCapacity",
+        "parameters": [
+          {
+            "name": "tid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the capacity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tournaments/{tid}/players": {
+      "get": {
+        "tags": [
+          "tournaments"
+        ],
+        "summary": "Get a JSON array of players enrolled in the tournament with the given ID.",
+        "operationId": "getTournamentEnrollments",
+        "parameters": [
+          {
+            "name": "tid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned the players.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tournaments/{tid}/players/{pid}" : {
+      "get": {
+        "tags": [
+          "tournaments"
+        ],
+        "summary": "Checks whether the given enrollment exists for the given tournament.",
+        "operationId": "checkTournamentEnrollments",
+        "parameters": [
+          {
+            "name": "tid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }, 
+          {
+            "name": "pid",
+            "in": "path",
+            "description": "Player ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "There enrollment exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The enrollment does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/players": {
+      "get": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Get a list with all players.",
+        "operationId": "getPlayers",
+        "responses": {
+          "200": {
+            "description": "Successfully returns a JSON array of all players.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Player"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Add a new player.",
+        "operationId": "postPlayer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Player"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully added the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Player"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Player already exists.",
             "content": {
               "application/json": {
                 "schema": {
@@ -359,68 +684,41 @@
         }
       }
     },
-    "/tournaments": {
+    "/players/{pid}/tournaments": {
       "get": {
         "tags": [
-          "tournaments"
+          "players"
         ],
-        "summary": "Get a list with all tournaments.",
-        "operationId": "getTournaments",
+        "description": "Get a JSON array of tournaments in which the player with the given ID is enrolled.",
+        "operationId": "getPlayerEnrollments",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "description": "Player ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successfully returns a JSON array of all tournaments.",
+            "description": "Successfully returned player's enrollments.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Tournament"
+                    "type": "integer",
+                    "format": "int64"
                   }
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "tournaments"
-        ],
-        "summary": "Add a new tournament.",
-        "operationId": "postTournament",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Tournament"
-              }
-            }
           },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Successfully created the tournament.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tournament"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Invalid capacity.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Tournament exists.",
+          "404": {
+            "description": "The specified resource was not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -442,62 +740,51 @@
         }
       }
     },
-    "/players": {
+    "/players/{pid}/tournaments/{tid}" : {
       "get": {
         "tags": [
           "players"
         ],
-        "summary": "Get a list with all players.",
-        "operationId": "getPlayers",
-        "responses": {
-          "200": {
-            "description": "Successfully returns a JSON array of all players.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Player"
-                  }
-                }
-              }
+        "summary": "Checks whether the given tournament exists for the given player.",
+        "operationId": "checkPlayerEnrollments",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "description": "Player ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }, 
+          {
+            "name": "tid",
+            "in": "path",
+            "description": "Tournament ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
-        }
-      },
-      "post": {
-        "tags": [
-          "players"
         ],
-        "summary": "Add a new player.",
-        "operationId": "postPlayer",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Player"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
-          "201": {
-            "description": "Successfully added the user.",
+          "200": {
+            "description": "There enrollment exists.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Player"
+                  "type": "boolean"
                 }
               }
             }
           },
-          "409": {
-            "description": "Player already exists.",
+          "404": {
+            "description": "The enrollment does not exist.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
+                  "type": "boolean"
                 }
               }
             }
@@ -587,170 +874,6 @@
           },
           "409": {
             "description": "Player is already enrolled in the tournament.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tournaments/{tid}/players": {
-      "get": {
-        "tags": [
-          "tournaments"
-        ],
-        "summary": "Get a JSON array of players enrolled in the tournament with the given ID.",
-        "operationId": "getTournamentEnrollments",
-        "parameters": [
-          {
-            "name": "tid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully returned the players.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "The specified resource was not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tournaments/{tid}/capacity": {
-      "get": {
-        "tags": [
-          "tournaments"
-        ],
-        "summary": "Get a tournament's capacity.",
-        "operationId": "getTournamentCapacity",
-        "parameters": [
-          {
-            "name": "tid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully returned the capacity.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "The specified resource was not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorObject"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/players/{pid}/tournaments": {
-      "get": {
-        "tags": [
-          "players"
-        ],
-        "description": "Get a JSON array of tournaments in which the player with the given ID is enrolled.",
-        "operationId": "getPlayerEnrollments",
-        "parameters": [
-          {
-            "name": "pid",
-            "in": "path",
-            "description": "Player ID.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully returned player's enrollments.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "The specified resource was not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -896,6 +1019,7 @@
             "example": "Triwizard Tournament"
           },
           "capacity": {
+            "minimum": 2,
             "type": "integer",
             "format": "int32",
             "example": 4
@@ -968,15 +1092,13 @@
           "pid": {
             "pattern": "(1|2)[0-9]{8}",
             "type": "string",
-            "example": "100200300",
-            "x-refersTo":"#components/schemas/Player/pid" 
+            "example": "100200300"
           },
           "tid": {
             "minimum": 0,
             "type": "integer",
             "format": "int64",
-            "example": 2,
-            "x-refersTo":"#components/schemas/Tournament/tid" 
+            "example": 2
           }
         }
       }
