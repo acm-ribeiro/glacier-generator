@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: MagmaCt-Gen
+title: Glacier-Gen
 message: >-
   If you need to use this software, please cite it using the
   information on this file. 
@@ -20,6 +20,6 @@ identifiers:
   - type: doi
     value: 10.13140/RG.2.2.31110.65603
     description: Invariant-Driven Automated Testing
-repository-code: 'https://github.com/acm-ribeiro/magmact-gen'
-abstract: 'Generates an extended OAS with MagmaCt contracts. '
-date-released: '2023-02-24'
+repository-code: 'https://github.com/acm-ribeiro/glaicer-gen'
+abstract: 'Generates an extended OAS with Glacier contracts. '
+date-released: '2025-12-22'
