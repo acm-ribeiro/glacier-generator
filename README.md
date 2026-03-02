@@ -1,12 +1,37 @@
-# Glacier Generator #
+# Glacier Generator
 
-The Glacier generator automatically generates Glacier contracts based on an existing OpenAPI Specification (OAS) document.
+The Glacier Generator produces Glacier contracts from an existing OpenAPI Specification (OAS) document.
 The generated file is an extension of the original OAS JSON file. 
 
-Currently, Glacier generator is not able to generate invariants. As such, we provide a catalogue with the most common templates for 
+Currently, Glacier Generator is not able to generate invariants. As such, we provide a catalogue with the most common templates for 
 the user to complement the generated contracts. 
 
 The generated JSON file can then be used by IcePick - a tool to automate the microservice testing process. 
+
+--- 
+## What You Get
+
+- Automatically generated preconditions and postconditions for API operations
+- A structured extension of your original OAS file
+- Compatibility with IcePick for automated test generation
+- A catalogue of invariant templates to refine contracts manually
+
+## Workflow Overview
+
+1. Provide an existing OAS JSON file.
+2. Run Glacier Generator.
+3. Review and refine generated contracts.
+4. Use the extended specification with IcePick.
+
+## Limitations
+
+- Invariants are NOT automatically generated.
+- Business rules requiring cross-resource reasoning must be manually defined.
+- Referential integrity is not inferred from OAS.
+- Semantic intent beyond structural constraints cannot be derived.
+  
+--- 
+## Contents 
 
 1. [Glacier](#glacier-gen)
 2. [Running Example: Tournaments Management Application](#example)
@@ -27,24 +52,36 @@ The generated JSON file can then be used by IcePick - a tool to automate the mic
 5. [Usage](#usage)
 6. [Support](#support)
 
+
 # Glacier <a name="glacier-gen"></a>
 Glacier is a specification language to complement APIs' specifications based on first-order logic. Its purpose is to 
 extend the OAS with practical properties for test generation, transforming these documents 
-into valuable testing artefacts. Besides providing information for microservice testing, Glacier also provides 
-an API with semantic.
+into executable testing artefacts. Besides providing information for microservice testing, Glacier 
+provides formal semantics for API behavior through first-order logical predicates.
 
-With Glacier you can build logical predicates based on pure - i.e. without side-effects (GETs) - API 
-operations. These predicates are used to write operation contracts. In the same way, Glacier is also used to write API 
+Glacier allows you to construct logical predicates using pure (side-effect-free) API operations, typically GET endpoints. 
+These predicates are used to write operation contracts. In the same way, Glacier is also used to write API 
 invariants. Although initially designed to extend OAS, Glacier can also be used with any API specification 
 language that can be extended.
 
 The grammar file can be consulted in the `src/main/glacier-grammar` directory. 
 
+### Glacier Core Constructs
+
+Glacier supports:
+
+- Universal quantification: `for`
+- Existential quantification: `exists`
+- State reference: `previous(...)`
+- Response inspection: `response_body(...)`, `response_code(...)`
+- Request inspection: `request_body(...)`
+- Collection size: `.length`
+
 # Running Example: Tournaments Management Application <a name="example"></a>
 We'll use this example to illustrate the catalogue's properties. 
 
 This application maintains information about `players`, `tournaments`, and `enrolments`. Players compete in tournaments, from which they can
-be enroled and disenroled. 
+be enrolled and disenrolled. 
 
 This application has three APIs responsible for managing `players`, `tournaments`, and `enrolments` resources. The APIs 
 are the following: 
@@ -64,10 +101,10 @@ are the following:
       GET      - returns the capacity of the tournament with the given {tid}
    
    /tournaments/{tid}/players
-      GET      - returns the players enroled in the tournament with the given {tid}
+      GET      - returns the players enrolled in the tournament with the given {tid}
  
    /tournaments/{tid}/players/{pid}
-      GET      - checks if the player with the given {pid} is enroled in the tournament with the given {tid}
+      GET      - checks if the player with the given {pid} is enrolled in the tournament with the given {tid}
 ```   
 
 :small_blue_diamond: Players' API:
@@ -85,9 +122,9 @@ are the following:
       GET      - returns the tournaments in which the player with the given {pid} is enrolled
 
    /players/{pid}/tournaments/{tid}
-      GET      - checks if the player with the given {pid} is enroled in the tournament with the given {tid}
+      GET      - checks if the player with the given {pid} is enrolled in the tournament with the given {tid}
 
-   /enrolments/
+   /enrolments
       GET      - returns all enrolments
       POST     - adds a new enrolment
 
@@ -207,7 +244,7 @@ values, such as entity IDs.
 Alternatively, we can write this as a postcondition for the `GET /players/{pid}` operation with the help of the 
 `length` function: 
 
-`response_body(GET /player/{pid}.length == 1`
+`response_body(GET /players/{pid}).length == 1`
 
 ### Numerical Invariants <a name="numerical"></a>
 🔷 Numeric constraints refer to the application's numeric properties and set lower or upper bounds to data values.
@@ -221,10 +258,12 @@ capacity.
 
 
 ## Generated File Structure <a name="file-structure"></a>
-The generated file will be a standard `.json` file. You can find a full example of a Glacier generator output in the 
-`src/main/examples` directory. The file `glacier_spec.json` is the output of executing Glacier generator with the 
-`tournaments.json` specification. This file is a standard OAS. The file `tournaments_extended.json` 
-is a complete specification for the tournament's application, extended with valid and complete Glacier contracts. 
+
+The output is a valid OAS JSON document extended with Glacier-specific fields:
+
+- `invariants` – global invariants
+- `requires`   – operation preconditions
+- `ensures`    – operation postconditions
 
 ```json
 {
@@ -253,12 +292,11 @@ is a complete specification for the tournament's application, extended with vali
 ```
 
 ## Installation <a name="installation"></a>
-Glacier generator implementation is within a `.jar` file.
-Requires Java 16 or higher. 
-
+Glacier Generator implementation is within a `.jar` file.
+Requires Java 16+. 
 
 ## Usage  <a name="usage"></a>
-To execute the Glacier generator `.jar` file, you can do the following: 
+To execute the Glacier Generator `.jar` file, you can do the following: 
 
 ``java -jar glacier-gen.jar <path_to_oas_json>``
 
