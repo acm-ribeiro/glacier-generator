@@ -43,10 +43,10 @@ The grammar file can be consulted in the `src/main/glacier-grammar` directory.
 # Running Example: Tournaments Management Application <a name="example"></a>
 We'll use this example to illustrate the catalogue's properties. 
 
-This application maintains information about `players` and `tournaments`. Players compete in tournaments, from which they can
-be enrolled and disenrolled. 
+This application maintains information about `players`, `tournaments`, and `enrolments`. Players compete in tournaments, from which they can
+be enroled and disenroled. 
 
-This application has two APIs: one responsible for managing `players` and another for managing `tournaments` resources. The APIs 
+This application has three APIs responsible for managing `players`, `tournaments`, and `enrolments` resources. The APIs 
 are the following: 
 
 
@@ -55,21 +55,19 @@ are the following:
    /tournaments
       GET      - returns all tournaments 
       POST     - adds a new tournament
-   /tournaments/{tournamentId}
-      GET      - returns the tournament with the given {tournamentId}
-      PUT      - updated the tournament with the given {tournamentId}
-      DELETE   - deletes the tournament with the given {tournamentId}
+   /tournaments/{tid}
+      GET      - returns the tournament with the given {tid}
+      PUT      - updated the tournament with the given {tid}
+      DELETE   - deletes the tournament with the given {tid}
    
-   /tournaments/{tournamentId}/capacity
-      GET      - returns the capacity of the tournament with the given {tournamentId}
+   /tournaments/{tid}/capacity
+      GET      - returns the capacity of the tournament with the given {tid}
    
-   /tournaments/{tournamentId}/enrollments
-      POST     - enrols a player in the tournament with the given {tournamentId}
-      GET      - returns the players enrolled in the tournament with the given {tournamentId}
+   /tournaments/{tid}/players
+      GET      - returns the players enroled in the tournament with the given {tid}
  
-   /tournaments/{tournamentId}/enrollments/{playerNIF}
-      GET      - checks if the player with the given {playerNIF} is enrolled in the tournament with the given {tournamentId}
-      DELETE   - deletes the enrollment of the player with the given {playerNIF} in the tournament with the given {tournamentId}
+   /tournaments/{tid}/players/{pid}
+      GET      - checks if the player with the given {pid} is enroled in the tournament with the given {tid}
 ```   
 
 :small_blue_diamond: Players' API:
@@ -78,13 +76,24 @@ are the following:
       GET      - returns all players 
       POST     - adds a new player
    
-   /players/{playerNIF}
-      GET      - returns the player with the given {playerNIF}
-      PUT      - updates the player with the given {playerNIF}
-      DELETE   - deletes the player with the given {playerNIF}
+   /players/{pid}
+      GET      - returns the player with the given {pid}
+      PUT      - updates the player with the given {pid}
+      DELETE   - deletes the player with the given {pid}
    
-   /players/{playerNIF}/enrollments
-      GET      - returns the tournaments in which the player with the given {playerNIF} is enrolled
+   /players/{pid}/tournaments
+      GET      - returns the tournaments in which the player with the given {pid} is enrolled
+
+   /players/{pid}/tournaments/{tid}
+      GET      - checks if the player with the given {pid} is enroled in the tournament with the given {tid}
+
+   /enrolments/
+      GET      - returns all enrolments
+      POST     - adds a new enrolment
+
+   /enrolments/{eid}
+      GET      - returns the enrolment with the given {eid}
+      DELETE   - deletes the enrolment with the given {eid}
 ```
 
 💡 The full OAS of this application can be found in `scr/main/examples/tournaments.json`. 
@@ -137,7 +146,7 @@ insertion, the resource still exists and the stored data was exactly what we int
 
    Ensures:
       response_code(GET /players/{playerID}) == 200
-      request_body(this) != previous(response_body(GET /players/{playerNIF}))
+      request_body(this) != previous(response_body(GET /players/{pid}))
 ```
 
 #### DELETE <a name="delete"></a>
@@ -207,8 +216,8 @@ Using our example, we can say that the number of enrolled players in a tournamen
 capacity. 
 
 `for t in response_body(GET /tournaments) :- 
-   response_body(GET /tournaments/{t.tournamentId}/enrollments).length <= 
-   response_body(GET /tournaments/{t.tournamentId}/capacity)`
+   response_body(GET /tournaments/{t.tid}/enrollments).length <= 
+   response_body(GET /tournaments/{t.tid}/capacity)`
 
 
 ## Generated File Structure <a name="file-structure"></a>
