@@ -1,5 +1,6 @@
 package oas_custom_parser.domain;
 
+import oas_custom_parser.exceptions.NoTagsException;
 import utils.StringUtils;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class Specification {
 
     public Specification(List<String> servers, List<String> tags,
 						 Map<String, APIOperation> operations,
-						 Map<String, Schema> schemas, List<String> paths) {
+						 Map<String, Schema> schemas, List<String> paths) throws NoTagsException {
         this.servers = servers;
 		this.tags = tags;
         this.operationsById = operations;
@@ -159,7 +160,7 @@ public class Specification {
         return StringUtils.getOnes(op.getUri().toString());
     }
 
-    private void initOperationsByTags() {
+    private void initOperationsByTags() throws NoTagsException {
         operationsByTags = new HashMap<>();
         List<APIOperation> ops;
         List<String> tags;
@@ -169,11 +170,14 @@ public class Specification {
             op = entry.getValue();
             tags = op.getTags();
 
-            for (String tag : tags) {
-                ops = operationsByTags.containsKey(tag) ? operationsByTags.get(tag) : new ArrayList<>();
-                ops.add(op);
-                operationsByTags.put(tag, ops);
-            }
+            if (tags != null)
+                for (String tag : tags) {
+                    ops = operationsByTags.containsKey(tag) ? operationsByTags.get(tag) : new ArrayList<>();
+                    ops.add(op);
+                    operationsByTags.put(tag, ops);
+                }
+            else
+                throw new NoTagsException();
         }
     }
 

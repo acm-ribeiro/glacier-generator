@@ -1,0 +1,727 @@
+{
+  "servers": [
+    "http://localhost:8080/"
+  ],
+  "tags": [
+    "Products",
+    "Features",
+    "Configurations",
+    "Constraints"
+  ],
+  "invariants": [
+    "T"
+  ],
+  "paths": {
+    "/products/{productName}/constraints/{constraintId}": {
+      "DELETE": {
+        "operationID": "deleteConstraint",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "constraintId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "min": -999,
+              "max": 999,
+              "name": "constraintId",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 204,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Constraints"
+        ]
+      }
+    },
+    "/products/{productName}/configurations/{configurationName}": {
+      "DELETE": {
+        "operationID": "deleteConfiguration",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "configurationName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 204,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      },
+      "POST": {
+        "operationID": "addConfiguration",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "configurationName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 201,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      },
+      "GET": {
+        "operationID": "getConfigurationWithNameForProduct",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "configurationName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/productconfiguration"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      }
+    },
+    "/products/{productName}/configurations/{configurationName}/features": {
+      "GET": {
+        "operationID": "getConfigurationActivedFeatures",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "configurationName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "string"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      }
+    },
+    "/products/{productName}": {
+      "DELETE": {
+        "operationID": "deleteProductByName",
+        "requires": [
+          "response_code(GET /products/{id}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{id}) == 404"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 204,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Products"
+        ]
+      },
+      "POST": {
+        "operationID": "addProduct",
+        "requires": [
+          "response_code(GET /products/{id}) == 404"
+        ],
+        "ensures": [
+          "response_code(GET /products/{id}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 201,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Products"
+        ]
+      },
+      "GET": {
+        "operationID": "getProductByName",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/product"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ]
+      }
+    },
+    "/products/{productName}/features": {
+      "GET": {
+        "operationID": "getFeaturesForProduct",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/Feature"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "Features"
+        ]
+      }
+    },
+    "/products/{productName}/configurations": {
+      "GET": {
+        "operationID": "getConfigurationsForProduct",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "string"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      }
+    },
+    "/products/{productName}/configurations/{configurationName}/features/{featureName}": {
+      "DELETE": {
+        "operationID": "deleteFeature",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200",
+          "response_code(GET /products/{productName}/configurations/{configurationName}) == 200"
+
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200",
+          "response_code(GET /products/{productName}/configurations/{configurationName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "configurationName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "featureName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "featureName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 204,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      },
+      "POST": {
+        "operationID": "addFeatureToConfiguration",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200",
+          "response_code(GET /products/{productName}/configurations/{configurationName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200",
+          "response_code(GET /products/{productName}/configurations/{configurationName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "configurationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "configurationName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "featureName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "featureName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 201,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Configurations"
+        ]
+      }
+    },
+    "/products/{productName}/features/{featureName}": {
+      "DELETE": {
+        "operationID": "deleteFeatureOfProduct",
+        "requires": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /products/{productName}) == 200"
+        ],
+        "pathParams": [
+          {
+            "name": "productName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "productName",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "featureName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "featureName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 204,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "Features"
+        ]
+      }
+    },
+    "/products": {
+      "GET": {
+        "operationID": "getAllProducts",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "string"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "Products"
+        ]
+      }
+    }
+  },
+  "schemas": [
+    {
+      "name": "product",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/Feature",
+          "itemsFormat": "",
+          "name": "features",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/FeatureConstraint",
+          "itemsFormat": "",
+          "name": "constraints",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "feature",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "description",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "productconfiguration",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/Feature",
+          "itemsFormat": "",
+          "name": "activedFeatures",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "featureconstraint",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "type",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    }
+  ]
+}

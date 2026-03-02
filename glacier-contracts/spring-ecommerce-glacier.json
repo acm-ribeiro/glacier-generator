@@ -1,0 +1,1192 @@
+{
+  "servers": [
+    "//localhost:8080/"
+  ],
+  "tags": [
+    "auth-controller",
+    "basic-error-controller",
+    "cart-controller",
+    "catalog-controller",
+    "operation-handler",
+    "product-rating-controller",
+    "web-mvc-links-handler"
+  ],
+  "invariants": [
+    "T"
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "POST": {
+        "operationID": "registerUsingPOST",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/registerrequestdto"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/apiresponse"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "auth-controller"
+        ]
+      }
+    },
+    "/api/products/ratings/edit": {
+      "PUT": {
+        "operationID": "editRatingUsingPUT",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/productratingdto"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "product-rating-controller"
+        ]
+      }
+    },
+    "/api/cart/add/{sku}": {
+      "POST": {
+        "operationID": "addToCartUsingPOST",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "sku",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "sku",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/responseentity"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "cart-controller"
+        ]
+      }
+    },
+    "/api/store/catalog/products/category/{categoryName}": {
+      "GET": {
+        "operationID": "readProductByCategoryUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "categoryName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "categoryName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/ProductDto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/api/store/catalog/categories": {
+      "GET": {
+        "operationID": "readAllCategoriesUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/CategoryDto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "POST": {
+        "operationID": "loginUsingPOST",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/loginrequestdto"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/authenticationresponse"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "auth-controller"
+        ]
+      }
+    },
+    "/api/store/catalog/products/featured": {
+      "GET": {
+        "operationID": "readFeaturedProductsUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/ProductDto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/api/products/ratings/submit": {
+      "POST": {
+        "operationID": "postRatingUsingPOST",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/productratingdto"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "product-rating-controller"
+        ]
+      }
+    },
+    "/api/store/catalog/products/{sku}": {
+      "GET": {
+        "operationID": "readOneProductUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "sku",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "sku",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/productdto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/actuator": {
+      "GET": {
+        "operationID": "linksUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "object",
+              "ref": ""
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "web-mvc-links-handler"
+        ]
+      }
+    },
+    "/api/store/catalog/products": {
+      "GET": {
+        "operationID": "readAllProductsUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/ProductDto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/api/store/catalog/search": {
+      "POST": {
+        "operationID": "searchUsingPOST",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/searchquerydto"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/productsearchresponsedto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/api/store/catalog/{categoryName}/facets/filter": {
+      "POST": {
+        "operationID": "filterForFacetsUsingPOST",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "categoryName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "categoryName",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/searchquerydto"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/productsearchresponsedto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "catalog-controller"
+        ]
+      }
+    },
+    "/api/products/ratings/get/{sku}": {
+      "GET": {
+        "operationID": "getRatingUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "sku",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "sku",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/ProductRatingDto"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "product-rating-controller"
+        ]
+      }
+    },
+    "/api/auth/accountVerification/{token}": {
+      "GET": {
+        "operationID": "verifyAccountUsingGET",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "token",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/apiresponse"
+            },
+            "contentTypes": [
+              "*/*"
+            ]
+          },
+          {
+            "responseCode": 401,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 403,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "auth-controller"
+        ]
+      }
+    }
+  },
+  "schemas": [
+    {
+      "name": "facetdto",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "facetName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/FacetValueDto",
+          "itemsFormat": "",
+          "name": "facetValueDto",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "facetvaluedto",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int32",
+          "min": -999,
+          "max": 999,
+          "name": "count",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "facetValueName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "productattribute",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "attributeName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "attributeValue",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "productratingdto",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "ratingId",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "review",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "sku",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "userName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "href",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "authenticationresponse",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "accessToken",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "username",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "categorydto",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "categoryNames",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "productsearchresponsedto",
+      "type": "object",
+      "properties": [
+        {
+          "itemsType": "#/schemas/FacetDto",
+          "itemsFormat": "",
+          "name": "facetDtos",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/ProductDto",
+          "itemsFormat": "",
+          "name": "products",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "apiresponse",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "message",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "format": "int32",
+          "min": -999,
+          "max": 999,
+          "name": "status",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "productdto",
+      "type": "object",
+      "properties": [
+        {
+          "itemsType": "#/schemas/ProductAttribute",
+          "itemsFormat": "",
+          "name": "attributeList",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "ref": "#/schemas/ProductAvailability",
+          "name": "availability",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "description",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "imageUrl",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "manufacturer",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "productName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/ProductRatingDto",
+          "itemsFormat": "",
+          "name": "productRatingDtoList",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "sku",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "responseentity",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "statusCode",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "format": "int32",
+          "min": -999,
+          "max": 999,
+          "name": "statusCodeValue",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "filter",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "from",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "key",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "to",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "value",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "view",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "contentType",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "loginrequestdto",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "password",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "username",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "productavailability",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "availability",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "color",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "modelandview",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "status",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "ref": "#/schemas/View",
+          "name": "view",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "viewName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "searchquerydto",
+      "type": "object",
+      "properties": [
+        {
+          "itemsType": "#/schemas/Filter",
+          "itemsFormat": "",
+          "name": "filters",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "textQuery",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "registerrequestdto",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "confirmPassword",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "email",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "password",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "username",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    }
+  ]
+}

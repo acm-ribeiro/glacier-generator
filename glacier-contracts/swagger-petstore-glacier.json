@@ -1,0 +1,945 @@
+{
+  "servers": [
+    "http://localhost:8481"
+  ],
+  "tags": [
+    "pet",
+    "store",
+    "user"
+  ],
+  "invariants": [
+    "T"
+  ],
+  "paths": {
+    "/pet": {
+      "POST": {
+        "operationID": "addPet",
+        "requires": [
+          "response_code(GET /pet/request_body(this){id}) == 404"
+        ],
+        "ensures": [
+          "response_code(GET /pet/request_body(this){id}) == 200"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/pet"
+        },
+        "responses": [
+          {
+            "responseCode": 405,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "pet"
+        ]
+      },
+      "PUT": {
+        "operationID": "putPet",
+        "requires": [
+          "response_code(GET /pet/request_body(this){id}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /pet/request_body(this){id}) == 200",
+          "response_body(GET /pet/request_body(this){id}) != previous(response_body(GET /pet/request_body(this){id}))"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/pet"
+        },
+        "responses": [
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 405,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "pet"
+        ]
+      }
+    },
+    "/user/{username}": {
+      "DELETE": {
+        "operationID": "deleteUser",
+        "requires": [
+          "response_code(GET /user/{username}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /user/{username}) == 404"
+        ],
+        "pathParams": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "username",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      },
+      "GET": {
+        "operationID": "getUserByName",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "username",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/user"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      },
+      "PUT": {
+        "operationID": "putUser",
+        "requires": [
+          "response_code(GET /user/{username}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /user/{username}) == 200",
+          "response_body(GET /user/{username}) != previous(response_body(GET /user/{username}))"
+        ],
+        "pathParams": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "name": "username",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/user"
+        },
+        "responses": [
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/pet/findByStatus": {
+      "GET": {
+        "operationID": "findPetsByStatus",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "name": "status",
+              "type": "array",
+              "itemsType": ""
+            }
+          }
+        ],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/Pet"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "pet"
+        ]
+      }
+    },
+    "/user/createWithList": {
+      "POST": {
+        "operationID": "createUsersWithListInput",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/userarray"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/store/inventory": {
+      "GET": {
+        "operationID": "getInventory",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "object",
+              "ref": ""
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          }
+        ],
+        "tags": [
+          "store"
+        ]
+      }
+    },
+    "/user/login": {
+      "GET": {
+        "operationID": "loginUser",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "name": "username",
+              "type": "string",
+              "pattern": ""
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "name": "password",
+              "type": "string",
+              "pattern": ""
+            }
+          }
+        ],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "string",
+              "ref": ""
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user": {
+      "POST": {
+        "operationID": "createUser",
+        "requires": [
+          "response_code(GET /user/request_body(this){username}) == 404"
+        ],
+        "ensures": [
+          "response_code(GET /user/request_body(this){username}) == 200"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/user"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/user/createWithArray": {
+      "POST": {
+        "operationID": "createUsersWithArrayInput",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/pet/findByTags": {
+      "GET": {
+        "operationID": "findPetsByTags",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [
+          {
+            "name": "tags",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "name": "tags",
+              "type": "array",
+              "itemsType": ""
+            }
+          }
+        ],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "schemaType": "array",
+              "format": "",
+              "items": "#/components/schemas/Pet"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "pet"
+        ]
+      }
+    },
+    "/store/order": {
+      "POST": {
+        "operationID": "placeOrder",
+        "requires": [
+          "response_code(GET /order/request_body(this){id}) == 404"
+        ],
+        "ensures": [
+          "response_code(GET /order/request_body(this){id}) == 200"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "requestBody": {
+          "ref": "#/schemas/order"
+        },
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/order"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "store"
+        ]
+      }
+    },
+    "/user/logout": {
+      "GET": {
+        "operationID": "logoutUser",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/pet/{id}": {
+      "DELETE": {
+        "operationID": "deletePet",
+        "requires": [
+          "response_code(GET /pet/{id}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /pet/{id}) == 404",
+          "request_body(this) != previous(response_body(GET /pet/{id}))"
+        ],
+        "pathParams": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "min": -999,
+              "max": 999,
+              "name": "petId",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "pet"
+        ]
+      },
+      "GET": {
+        "operationID": "getPetById",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "min": -999,
+              "max": 999,
+              "name": "petId",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/pet"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "pet"
+        ]
+      }
+    },
+    "/store/order/{id}": {
+      "DELETE": {
+        "operationID": "deleteOrder",
+        "requires": [
+          "response_code(GET /store/order/{id}) == 200"
+        ],
+        "ensures": [
+          "response_code(GET /store/order/{id}) == 404",
+          "request_body(this) != previous(response_body(GET /store/order/{id}))"
+        ],
+        "pathParams": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "min": 1,
+              "max": 999,
+              "name": "orderId",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "store"
+        ]
+      },
+      "GET": {
+        "operationID": "getOrderById",
+        "requires": [
+          "T"
+        ],
+        "ensures": [
+          "T"
+        ],
+        "pathParams": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "min": 1,
+              "max": 10,
+              "name": "orderId",
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "queryParams": [],
+        "responses": [
+          {
+            "responseCode": 200,
+            "contentSchema": {
+              "format": "",
+              "ref": "#/schemas/order"
+            },
+            "contentTypes": [
+              "application/json"
+            ]
+          },
+          {
+            "responseCode": 400,
+            "contentTypes": []
+          },
+          {
+            "responseCode": 404,
+            "contentTypes": []
+          }
+        ],
+        "tags": [
+          "store"
+        ]
+      }
+    }
+  },
+  "schemas": [
+    {
+      "name": "apiresponse",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int32",
+          "min": -999,
+          "max": 999,
+          "name": "code",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "type",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "message",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "category",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "userarray",
+      "type": "object",
+      "properties": [
+        {
+          "itemsType": "#/schemas/user",
+          "itemsFormat": "",
+          "name": "tags",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "type": "object",
+      "properties": [
+        {
+          "pattern": "",
+          "name": "username",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "firstName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "lastName",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "email",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "password",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "phone",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "format": "int32",
+          "min": -999,
+          "max": 999,
+          "name": "userStatus",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "pet",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "ref": "#/schemas/category",
+          "name": "category",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "name",
+          "type": "string",
+          "refersTo": "",
+          "required": true,
+          "gen": false
+        },
+        {
+          "itemsType": "string",
+          "itemsFormat": "",
+          "name": "photoUrls",
+          "type": "array",
+          "refersTo": "",
+          "required": true,
+          "gen": false
+        },
+        {
+          "itemsType": "#/schemas/tag",
+          "itemsFormat": "",
+          "name": "tags",
+          "type": "array",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "status",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    },
+    {
+      "name": "order",
+      "type": "object",
+      "properties": [
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "id",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "format": "int64",
+          "min": -999,
+          "max": 999,
+          "name": "petId",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "format": "int32",
+          "min": -999,
+          "max": 999,
+          "name": "quantity",
+          "type": "integer",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "shipDate",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        },
+        {
+          "pattern": "",
+          "name": "status",
+          "type": "string",
+          "refersTo": "",
+          "required": false,
+          "gen": false
+        }
+      ]
+    }
+  ]
+}

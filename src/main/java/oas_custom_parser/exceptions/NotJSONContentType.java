@@ -8,8 +8,6 @@ public class NotJSONContentType extends Exception {
 
     public NotJSONContentType(String operationId) {
         super("Unable to infer a complete Magma-CT specification for [" + operationId + "] " +
-                "because it" +
-                " requires data that's" +
-                "not [json] or [x-www-form-urlencoded].");
+                "because it requires data that's not [json] or [x-www-form-urlencoded].");
     }
 }
