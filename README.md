@@ -117,10 +117,10 @@ insertion, the resource exists, and what was inserted is precisely what we inten
 
 ```
    Requires:
-      response_code(GET /players/{playerID}) == 404
+      response_code(GET /players/{pid}) == 404
 
    Ensures:
-      response_code(GET /players/{playerID}) == 200
+      response_code(GET /players/{pid}) == 200
       response_body(this) == request_body(this)
 ```
 
@@ -142,10 +142,10 @@ insertion, the resource still exists and the stored data was exactly what we int
 
 ```
    Requires:
-      response_code(GET /players/{playerID}) == 200
+      response_code(GET /players/{pid}) == 200
 
    Ensures:
-      response_code(GET /players/{playerID}) == 200
+      response_code(GET /players/{pid}) == 200
       request_body(this) != previous(response_body(GET /players/{pid}))
 ```
 
@@ -155,10 +155,10 @@ removal, the resource does not exist, and the deleted data was exactly what we i
 
 ```
    Requires:
-      response_code(GET /players/{playerID}) == 200
+      response_code(GET /players/{pid}) == 200
 
    Ensures:
-      response_code(GET /players/{playerID}) == 404
+      response_code(GET /players/{pid}) == 404
 ```
 
 ### Integrity Constraints <a name="integrity-constraints"></a>
@@ -181,7 +181,7 @@ OpenAPI 3.0 does not have an explicit `null` type. But we can use `nullable: tru
 `null`.  But it is often common we want to assert that an attribute value must not be `null`. In Glacier, it is done as 
 follows:
 
-`for p in response_body(GET /players) :-  p.playerID != null`
+`for p in response_body(GET /players) :-  p.pid != null`
 
 #### Referential Integrity Constraints <a name="ref-integrity"></a> 
 🔷 Requires that a foreign key must have a matching primary key or it must be null. This constraint is specified 
@@ -194,7 +194,7 @@ sure this is enforced, we might want to define a Glacier predicate. As such, let
 This `score` is stored in a different table for efficiency purposes. A referential integrity constraint might be that
 every table entry must belong to an existing player:
 
-`for s in response_body(GET /scores): exists p in response_body(GET /players):- s.playerID == p.playerID`
+`for s in response_body(GET /scores): exists p in response_body(GET /players):- s.pid == p.pid`
 
 #### Key Constraints <a name="key"></a> 
 🔷 Guarantees the uniqueness of primary keys
@@ -202,12 +202,12 @@ every table entry must belong to an existing player:
 Although we can specify that array items must be unique, we do not have an explicit way to do this in OAS for other 
 values, such as entity IDs.
 
-`for p1, p2 in response_body(GET /players) :- p1.playerID != p2.playerID`
+`for p1, p2 in response_body(GET /players) :- p1.pid != p2.pid`
 
-Alternatively, we can write this as a postcondition for the `GET /players/{playerID}` operation with the help of the 
+Alternatively, we can write this as a postcondition for the `GET /players/{pid}` operation with the help of the 
 `length` function: 
 
-`response_body(GET /player/{playerID}.length == 1`
+`response_body(GET /player/{pid}.length == 1`
 
 ### Numerical Invariants <a name="numerical"></a>
 🔷 Numeric constraints refer to the application's numeric properties and set lower or upper bounds to data values.
@@ -216,7 +216,7 @@ Using our example, we can say that the number of enrolled players in a tournamen
 capacity. 
 
 `for t in response_body(GET /tournaments) :- 
-   response_body(GET /tournaments/{t.tid}/enrollments).length <= 
+   response_body(GET /tournaments/{t.tid}/players).length <= 
    response_body(GET /tournaments/{t.tid}/capacity)`
 
 
@@ -260,7 +260,7 @@ Requires Java 16 or higher.
 ## Usage  <a name="usage"></a>
 To execute the Glacier generator `.jar` file, you can do the following: 
 
-``java -jar Glacier generator.jar <path_to_oas_json>``
+``java -jar glacier-gen.jar <path_to_oas_json>``
 
 The generated JSON specification will be under the `glacier-contracts` directory. 
 
