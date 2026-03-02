@@ -64,7 +64,7 @@ These predicates are used to write operation contracts. In the same way, Glacier
 invariants. Although initially designed to extend OAS, Glacier can also be used with any API specification 
 language that can be extended.
 
-The grammar file can be consulted in the `src/main/glacier-grammar` directory. 
+The Glacier grammar file `glacier.g4` is available at the root directory. 
 
 ### Glacier Core Constructs
 
