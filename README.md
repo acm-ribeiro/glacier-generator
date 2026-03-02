@@ -96,7 +96,7 @@ are the following:
       DELETE   - deletes the enrolment with the given {eid}
 ```
 
-💡 The full OAS of this application can be found in `scr/main/examples/tournaments.json`. 
+💡 The full OAS of this application can be found in `oas-files/tournaments.json`. 
 
 ## Catalogue <a name="catalogue"></a>
 
